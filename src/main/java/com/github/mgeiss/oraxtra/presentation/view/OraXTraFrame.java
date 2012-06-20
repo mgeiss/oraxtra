@@ -36,13 +36,20 @@ import javax.swing.table.TableModel;
 public class OraXTraFrame extends JFrame {
 
     private OraXTraController controller;
+    private JMenuItem exitMenuItem;
     private JMenuItem runMenuItem;
+    private JMenuItem databaseMenuItem;
     private JTextPane sqlCommandPane;
     private JTable resultTable;
     private SQLTextTableModel sqlTextTableModel;
     private JTextPane executionPlanPane;
     private JLabel statusLabel;
     private JProgressBar statusBar;
+    private ImageIcon appIcon;
+    private ImageIcon exitIcon;
+    private ImageIcon runIcon;
+    private ImageIcon runPendingIcon;
+    private ImageIcon dbProbsIcon;
 
     public OraXTraFrame(OraXTraController controller) {
         super();
@@ -85,6 +92,10 @@ public class OraXTraFrame extends JFrame {
             public void run() {
                 OraXTraFrame.this.statusLabel.setText(text);
                 OraXTraFrame.this.statusBar.setIndeterminate(true);
+                OraXTraFrame.this.runMenuItem.setEnabled(false);
+                OraXTraFrame.this.runMenuItem.setIcon(OraXTraFrame.this.runPendingIcon);
+                OraXTraFrame.this.exitMenuItem.setEnabled(false);
+                OraXTraFrame.this.databaseMenuItem.setEnabled(false);
             }
         });
     }
@@ -96,12 +107,25 @@ public class OraXTraFrame extends JFrame {
             public void run() {
                 OraXTraFrame.this.statusLabel.setText("");
                 OraXTraFrame.this.statusBar.setIndeterminate(false);
+                OraXTraFrame.this.runMenuItem.setEnabled(true);
+                OraXTraFrame.this.runMenuItem.setIcon(OraXTraFrame.this.runIcon);
+                OraXTraFrame.this.exitMenuItem.setEnabled(true);
+                OraXTraFrame.this.databaseMenuItem.setEnabled(true);
             }
         });
     }
 
     private void init() {
-        super.setTitle("Oracle Execution Trace");
+        
+        this.appIcon = new ImageIcon(ClassLoader.getSystemResource("icons/db_status.png"));
+        this.exitIcon = new ImageIcon(ClassLoader.getSystemResource("icons/exit.png"));
+        this.runIcon = new ImageIcon(ClassLoader.getSystemResource("icons/cnr.png"));
+        this.runPendingIcon = new ImageIcon(ClassLoader.getSystemResource("icons/cnr-pending.png"));
+        this.dbProbsIcon = new ImageIcon(ClassLoader.getSystemResource("icons/edit.png"));
+        
+        super.setTitle("OraXTra - Oracle Execution Trace");
+        super.setIconImage(this.appIcon.getImage());
+        
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JMenuBar menuBar = new JMenuBar();
@@ -111,7 +135,7 @@ public class OraXTraFrame extends JFrame {
         menuBar.add(fileMenu);
         fileMenu.setMnemonic(KeyEvent.VK_F);
 
-        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        this.exitMenuItem = new JMenuItem("Exit", this.exitIcon);
         fileMenu.add(exitMenuItem);
         exitMenuItem.setMnemonic(KeyEvent.VK_E);
         exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
@@ -122,7 +146,7 @@ public class OraXTraFrame extends JFrame {
         menuBar.add(executeMenu);
         executeMenu.setMnemonic(KeyEvent.VK_X);
 
-        this.runMenuItem = new JMenuItem("Run");
+        this.runMenuItem = new JMenuItem("Run", this.runIcon);
         executeMenu.add(this.runMenuItem);
         this.runMenuItem.setMnemonic(KeyEvent.VK_R);
         this.runMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
@@ -133,7 +157,7 @@ public class OraXTraFrame extends JFrame {
         menuBar.add(preferenceMenu);
         preferenceMenu.setMnemonic(KeyEvent.VK_P);
 
-        JMenuItem databaseMenuItem = new JMenuItem("Database Properties");
+        this.databaseMenuItem = new JMenuItem("Database Properties", this.dbProbsIcon);
         preferenceMenu.add(databaseMenuItem);
         databaseMenuItem.setMnemonic(KeyEvent.VK_D);
         databaseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_MASK));
