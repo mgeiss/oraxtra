@@ -8,7 +8,8 @@ A little tool writen in java to trace the execution plan for a given database
 query.
 
 To compile it using maven you need to add the ojdbc6.jar to your local maven
-repository. You can download the driver at
+repository. You can download the driver at [Oracle]
+(http://www.oracle.com/technetwork/indexes/downloads/index.html).
 
 People
 ------
