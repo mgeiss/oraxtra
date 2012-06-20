@@ -15,10 +15,18 @@
  */
 package com.github.mgeiss.oraxtra;
 
+import com.github.mgeiss.oraxtra.presentation.control.OraXTraController;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
- * <code>OraXTra</code> stands for ORAcle eXecution TRAce. <code>OraXTra</code>
- * A little tool to trace the execution plan for a given database query.
- * 
+ * <code>OraXTra</code> stands for ORAcle eXecution TRAce.
+ * <code>OraXTra</code> A little tool to trace the execution plan for a given
+ * database query.
+ *
  * @author Markus Geiss
  * @version 1.0
  */
@@ -27,8 +35,23 @@ public class OraXTra {
     public OraXTra() {
         super();
     }
-    
+
     public static void main(String[] args) {
-        OraXTra oraXTra = new OraXTra();
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Could not find suitable JDBC-Driver, programm wil exit.\n" + ex.getClass().getSimpleName() + ": " + ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+            System.exit(-1);
+        }
+
+        try {
+            Class<?> clazz = Class.forName("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+            Method setPlasticTheme = clazz.getMethod("setPlasticTheme", Class.forName("com.jgoodies.looks.plastic.PlasticTheme"));
+            setPlasticTheme.invoke(clazz.newInstance(), Class.forName("com.jgoodies.looks.plastic.theme.ExperienceGreen").newInstance());
+            UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | UnsupportedLookAndFeelException ex) {
+        }
+        
+        new OraXTraController();
     }
 }
