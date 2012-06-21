@@ -21,6 +21,7 @@ import com.github.mgeiss.oraxtra.presentation.control.OraXTraController;
 import com.github.mgeiss.oraxtra.presentation.model.QueryResultTableModel;
 import com.github.mgeiss.oraxtra.presentation.model.SQLSyntaxDocument;
 import com.github.mgeiss.oraxtra.presentation.model.SQLTextTableModel;
+import com.github.mgeiss.oraxtra.util.Messages;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -123,7 +124,7 @@ public class OraXTraFrame extends JFrame {
         this.runPendingIcon = new ImageIcon(ClassLoader.getSystemResource("icons/cnr-pending.png"));
         this.dbProbsIcon = new ImageIcon(ClassLoader.getSystemResource("icons/edit.png"));
         
-        super.setTitle("OraXTra - Oracle Execution Trace");
+        super.setTitle(Messages.getText("oraxtra.frame.title"));
         super.setIconImage(this.appIcon.getImage());
         
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,33 +132,33 @@ public class OraXTraFrame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         super.setJMenuBar(menuBar);
 
-        JMenu fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu(Messages.getText("oraxtra.frame.menu.file"));
         menuBar.add(fileMenu);
         fileMenu.setMnemonic(KeyEvent.VK_F);
 
-        this.exitMenuItem = new JMenuItem("Exit", this.exitIcon);
+        this.exitMenuItem = new JMenuItem(Messages.getText("oraxtra.frame.menuitem.exit"), this.exitIcon);
         fileMenu.add(exitMenuItem);
         exitMenuItem.setMnemonic(KeyEvent.VK_E);
         exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
         exitMenuItem.addActionListener(this.controller);
         exitMenuItem.setActionCommand(OraXTraController.ACTION_EXIT);
 
-        JMenu executeMenu = new JMenu("Execute");
+        JMenu executeMenu = new JMenu(Messages.getText("oraxtra.frame.menu.execute"));
         menuBar.add(executeMenu);
         executeMenu.setMnemonic(KeyEvent.VK_X);
 
-        this.runMenuItem = new JMenuItem("Run", this.runIcon);
+        this.runMenuItem = new JMenuItem(Messages.getText("oraxtra.frame.menuitem.run"), this.runIcon);
         executeMenu.add(this.runMenuItem);
         this.runMenuItem.setMnemonic(KeyEvent.VK_R);
         this.runMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
         this.runMenuItem.addActionListener(this.controller);
         this.runMenuItem.setActionCommand(OraXTraController.ACTION_RUN);
 
-        JMenu preferenceMenu = new JMenu("Preferences");
+        JMenu preferenceMenu = new JMenu(Messages.getText("oraxtra.frame.menu.preferences"));
         menuBar.add(preferenceMenu);
         preferenceMenu.setMnemonic(KeyEvent.VK_P);
 
-        this.databaseMenuItem = new JMenuItem("Database Properties", this.dbProbsIcon);
+        this.databaseMenuItem = new JMenuItem(Messages.getText("oraxtra.frame.menuitem.dbproperties"), this.dbProbsIcon);
         preferenceMenu.add(databaseMenuItem);
         databaseMenuItem.setMnemonic(KeyEvent.VK_D);
         databaseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_MASK));
@@ -169,7 +170,7 @@ public class OraXTraFrame extends JFrame {
 
         JPanel topPanel = new JPanel(new BorderLayout());
         contentPanel.add(topPanel, BorderLayout.NORTH);
-        topPanel.setBorder(BorderFactory.createTitledBorder("SQL Command"));
+        topPanel.setBorder(BorderFactory.createTitledBorder(Messages.getText("oraxtra.frame.toppanel.title")));
         topPanel.setPreferredSize(new Dimension(100, 100));
 
         this.sqlCommandPane = new JTextPane();
@@ -178,14 +179,14 @@ public class OraXTraFrame extends JFrame {
 
         JPanel centerPanel = new JPanel(new BorderLayout());
         contentPanel.add(centerPanel, BorderLayout.CENTER);
-        centerPanel.setBorder(BorderFactory.createTitledBorder("Result"));
+        centerPanel.setBorder(BorderFactory.createTitledBorder(Messages.getText("oraxtra.frame.centerpanel.title")));
 
         this.resultTable = new JTable();
         centerPanel.add(new JScrollPane(this.resultTable), BorderLayout.CENTER);
 
         JPanel tracePanel = new JPanel(new BorderLayout());
         centerPanel.add(tracePanel, BorderLayout.SOUTH);
-        tracePanel.setBorder(BorderFactory.createTitledBorder("Trace Information"));
+        tracePanel.setBorder(BorderFactory.createTitledBorder(Messages.getText("oraxtra.frame.tracepanel.title")));
 
         JTabbedPane tabbedPane = new JTabbedPane();
         tracePanel.add(tabbedPane, BorderLayout.CENTER);
@@ -193,11 +194,11 @@ public class OraXTraFrame extends JFrame {
 
         this.sqlTextTableModel = new SQLTextTableModel();
         JTable sqlTextTable = new JTable(this.sqlTextTableModel);
-        tabbedPane.addTab("SQL Text", new JScrollPane(sqlTextTable));
+        tabbedPane.addTab(Messages.getText("oraxtra.frame.tabbedpane.firsttab"), new JScrollPane(sqlTextTable));
 
         this.executionPlanPane = new JTextPane();
         this.executionPlanPane.setEditable(false);
-        tabbedPane.addTab("Execution Plan", new JScrollPane(this.executionPlanPane));
+        tabbedPane.addTab(Messages.getText("oraxtra.frame.tabbedpane.secondtab"), new JScrollPane(this.executionPlanPane));
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         contentPanel.add(bottomPanel, BorderLayout.SOUTH);

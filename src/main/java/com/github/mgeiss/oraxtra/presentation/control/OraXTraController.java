@@ -22,6 +22,7 @@ import com.github.mgeiss.oraxtra.presentation.model.QueryResultTableModel;
 import com.github.mgeiss.oraxtra.presentation.view.DatabasePropertiesPanel;
 import com.github.mgeiss.oraxtra.presentation.view.OraXTraFrame;
 import com.github.mgeiss.oraxtra.presentation.view.ParameterPanel;
+import com.github.mgeiss.oraxtra.util.Messages;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -82,7 +83,7 @@ public class OraXTraController implements ActionListener {
             connection.close();
             valid = true;
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this.frame, ex.getClass().getSimpleName() + ": " + ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this.frame, ex.getClass().getSimpleName() + ": " + ex.getMessage(), ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
         }
         return valid;
     }
@@ -101,17 +102,17 @@ public class OraXTraController implements ActionListener {
 
     private void execute() {
         if (!this.frame.select().trim().toLowerCase().startsWith("select")) {
-            JOptionPane.showMessageDialog(this.frame, "Only queries are supported!");
+            JOptionPane.showMessageDialog(this.frame, Messages.getText("oraxtra.controller.message.query"));
             return;
         }
-        this.frame.startProgress("Run...");
+        this.frame.startProgress(Messages.getText("oraxtra.controller.progress.run"));
         this.frame.clearResultTable();
         this.frame.clearSQLTextTable();
         this.frame.clearExecutionPlan();
         
         try {
             if (this.connectionProperties == null) {
-                this.frame.startProgress("Enter database information");
+                this.frame.startProgress(Messages.getText("oraxtra.controller.progress.providedbinfo"));
                 this.showDataBasePropertiesDialog();
                 if (!this.checkConnectionProperties()) {
                     this.frame.stopProgress();
@@ -138,9 +139,9 @@ public class OraXTraController implements ActionListener {
 
                 ResultSet rset = null;
                 if (bindVariables > 0) {
-                    this.frame.startProgress("Enter bind variables");
+                    this.frame.startProgress(Messages.getText("oraxtra.controller.progress.providevariables"));
                     ParameterPanel panel = new ParameterPanel(bindVariables);
-                    if (JOptionPane.showOptionDialog(this.frame, panel, "Parameter", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null) == JOptionPane.OK_OPTION) {
+                    if (JOptionPane.showOptionDialog(this.frame, panel, Messages.getText("oraxtra.controller.parameterdialog.title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null) == JOptionPane.OK_OPTION) {
                         pstmt = connection.prepareStatement(this.frame.select() + timestamp);
                         Class<?> clazz = null;
                         String variable = null;
@@ -158,7 +159,7 @@ public class OraXTraController implements ActionListener {
                         }
                         rset = pstmt.executeQuery();
                     } else {
-                        JOptionPane.showMessageDialog(this.frame, "No parameter specified, abort execution!");
+                        JOptionPane.showMessageDialog(this.frame, Messages.getText("oraxtra.controller.message.noparameter"));
                         stmt.close();
                         connection.close();
                         this.frame.stopProgress();
@@ -168,7 +169,7 @@ public class OraXTraController implements ActionListener {
                     stmt = connection.createStatement();
                     rset = stmt.executeQuery(this.frame.select() + timestamp);
                 }
-                this.frame.startProgress("Execute query");
+                this.frame.startProgress(Messages.getText("oraxtra.controller.progress.execute"));
                 ResultSetMetaData rsetMetaData = rset.getMetaData();
 
                 LinkedList<String> columns = new LinkedList<>();
@@ -201,7 +202,7 @@ public class OraXTraController implements ActionListener {
 
                 rset.close();
 
-                this.frame.startProgress("Determine execution information");
+                this.frame.startProgress(Messages.getText("oraxtra.controller.progress.traceinfo"));
 
                 Statement stmtSql = connection.createStatement();
                 rset = stmtSql.executeQuery("select optimizer_mode, address, disk_reads, buffer_gets, rows_processed, cpu_time, elapsed_time, user_io_wait_time from v$sql where sql_text like '%" + timestamp + "'");
@@ -253,14 +254,14 @@ public class OraXTraController implements ActionListener {
                 stmt.close();
             }
         } catch (SQLException | HeadlessException | ParseException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this.frame, ex.getClass().getSimpleName() + ": " + ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this.frame, ex.getClass().getSimpleName() + ": " + ex.getMessage(), ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
         }
         this.frame.stopProgress();
     }
 
     private void showDataBasePropertiesDialog() {
         DatabasePropertiesPanel panel = new DatabasePropertiesPanel(this.connectionProperties);
-        if (JOptionPane.showOptionDialog(this.frame, panel, "Database Properties", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null) == JOptionPane.OK_OPTION) {
+        if (JOptionPane.showOptionDialog(this.frame, panel, Messages.getText("oraxtra.controller.dbpropertiesdialog.title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null) == JOptionPane.OK_OPTION) {
             this.connectionProperties = panel.createConnectionProperties();
             this.frame.clearResultTable();
             this.frame.clearSQLTextTable();

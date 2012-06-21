@@ -16,6 +16,7 @@
 package com.github.mgeiss.oraxtra.presentation.view;
 
 import com.github.mgeiss.oraxtra.presentation.control.OraXTraController;
+import com.github.mgeiss.oraxtra.util.Messages;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -57,36 +58,37 @@ public class DatabasePropertiesPanel extends JPanel {
     }
 
     private void init() {
+        
         super.setLayout(new GridBagLayout());
-        super.add(new JLabel("Host:"), new GridBagConstraints(0, 0, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
+        super.add(new JLabel(Messages.getText("oraxtra.dbproperties.panel.host")), new GridBagConstraints(0, 0, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
         this.hostField = new JTextField();
         super.add(this.hostField, new GridBagConstraints(1, 0, 1, 1, 1.00D, 1.00D, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
         if (this.connectionProperties != null) {
             this.hostField.setText(this.connectionProperties.getProperty(OraXTraController.PROPERTY_DB_HOST));
         }
 
-        super.add(new JLabel("Port:"), new GridBagConstraints(0, 1, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
+        super.add(new JLabel(Messages.getText("oraxtra.dbproperties.panel.port")), new GridBagConstraints(0, 1, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
         this.portField = new JTextField();
         super.add(this.portField, new GridBagConstraints(1, 1, 1, 1, 1.00D, 1.00D, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
         if (this.connectionProperties != null) {
             this.portField.setText(this.connectionProperties.getProperty(OraXTraController.PROPERTY_DB_PORT));
         }
 
-        super.add(new JLabel("SID:"), new GridBagConstraints(0, 2, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
+        super.add(new JLabel(Messages.getText("oraxtra.dbproperties.panel.sid")), new GridBagConstraints(0, 2, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
         this.sidField = new JTextField();
         super.add(this.sidField, new GridBagConstraints(1, 2, 1, 1, 1.00D, 1.00D, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
         if (this.connectionProperties != null) {
             this.sidField.setText(this.connectionProperties.getProperty(OraXTraController.PROPERTY_DB_SID));
         }
 
-        super.add(new JLabel("User:"), new GridBagConstraints(0, 3, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
+        super.add(new JLabel(Messages.getText("oraxtra.dbproperties.panel.user")), new GridBagConstraints(0, 3, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
         this.userField = new JTextField();
         super.add(this.userField, new GridBagConstraints(1, 3, 1, 1, 1.00D, 1.00D, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
         if (this.connectionProperties != null) {
             this.userField.setText(this.connectionProperties.getProperty(OraXTraController.PROPERTY_DB_USER));
         }
 
-        super.add(new JLabel("Password:"), new GridBagConstraints(0, 4, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
+        super.add(new JLabel(Messages.getText("oraxtra.dbproperties.panel.password")), new GridBagConstraints(0, 4, 1, 1, 0.00D, 0.00D, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
         this.passwordField = new JPasswordField();
         super.add(this.passwordField, new GridBagConstraints(1, 4, 1, 1, 1.00D, 1.00D, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
         if (this.connectionProperties != null) {
