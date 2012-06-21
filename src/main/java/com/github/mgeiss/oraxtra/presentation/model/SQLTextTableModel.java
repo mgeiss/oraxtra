@@ -16,6 +16,7 @@
 package com.github.mgeiss.oraxtra.presentation.model;
 
 import com.github.mgeiss.oraxtra.domain.SQLText;
+import com.github.mgeiss.oraxtra.util.Messages;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -114,25 +115,25 @@ public class SQLTextTableModel extends AbstractTableModel {
         String name = null;
         switch (columnIndex) {
             case 0:
-                name = "Optimizer Mode";
+                name = Messages.getText("oraxtra.sqltexttablemodel.column.optimizermode");
                 break;
             case 1:
-                name = "Rows processed";
+                name = Messages.getText("oraxtra.sqltexttablemodel.column.rowsprocessed");
                 break;
             case 2:
-                name = "Elapsed Time";
+                name = Messages.getText("oraxtra.sqltexttablemodel.column.elapsedtime");
                 break;
             case 3:
-                name = "CPU Time";
+                name = Messages.getText("oraxtra.sqltexttablemodel.column.cputime");
                 break;
             case 4:
-                name = "User IO Wait Time";
+                name = Messages.getText("oraxtra.sqltexttablemodel.column.userwait");
                 break;
             case 5:
-                name = "Disk Reads";
+                name = Messages.getText("oraxtra.sqltexttablemodel.column.diskreads");
                 break;
             case 6:
-                name = "Buffer Gets";
+                name = Messages.getText("oraxtra.sqltexttablemodel.column.buffergets");
                 break;
         }
         return name;
