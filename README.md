@@ -13,7 +13,7 @@ repository. You can download the driver at [Oracle]
 
 People
 ------
-OraXTra has been written by Markus Geiss (mgeiss257@googlemail.com).
+OraXTra has been written by Markus Geiss (mgeiss257@gmail.com).
 
 Usage
 -----
