@@ -19,6 +19,7 @@ import com.github.mgeiss.oraxtra.presentation.control.OraXTraController;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -44,13 +45,15 @@ public class OraXTra {
             System.exit(-1);
         }
 
-        try {
-            Class<?> clazz = Class.forName("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
-            Method setPlasticTheme = clazz.getMethod("setPlasticTheme", Class.forName("com.jgoodies.looks.plastic.PlasticTheme"));
-            setPlasticTheme.invoke(clazz.newInstance(), Class.forName("com.jgoodies.looks.plastic.theme.ExperienceGreen").newInstance());
-            UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | UnsupportedLookAndFeelException ex) {
-        }
+        SwingUtilities.invokeAndWait(() -> {
+            try {
+                Class<?> clazz = Class.forName("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+                Method setPlasticTheme = clazz.getMethod("setPlasticTheme", Class.forName("com.jgoodies.looks.plastic.PlasticTheme"));
+                setPlasticTheme.invoke(clazz.newInstance(), Class.forName("com.jgoodies.looks.plastic.theme.ExperienceGreen").newInstance());
+                UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+            } catch (ReflectiveOperationException | RuntimeException | UnsupportedLookAndFeelException ex) {
+            }
+        });
         
         new OraXTraController();
     }
